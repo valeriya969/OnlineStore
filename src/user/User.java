@@ -1,4 +1,8 @@
-import java.util.Scanner;
+package user;
+
+import basket.Basket;
+
+import java.util.Objects;
 
 public class User {
     private String login;
@@ -47,12 +51,10 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         User user = (User) o;
-
-        if (login != null ? !login.equals(user.login) : user.login != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        return basket != null ? basket.equals(user.basket) : user.basket == null;
+        return Objects.equals(login, user.login) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(basket, user.basket);
     }
 
     @Override
@@ -65,7 +67,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "user.User{" +
                 "login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 '}';

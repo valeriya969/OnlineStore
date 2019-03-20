@@ -1,3 +1,5 @@
+package product;
+
 public class Product  {
     private String name;
     private double price;
@@ -34,18 +36,6 @@ public class Product  {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Product product = (Product) o;
-
-        if (Double.compare(product.price, price) != 0) return false;
-        if (name != null ? !name.equals(product.name) : product.name != null) return false;
-        return rating != null ? rating.equals(product.rating) : product.rating == null;
-    }
-
-    @Override
     public int hashCode() {
         int result;
         long temp;
@@ -58,7 +48,7 @@ public class Product  {
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "product.Product{" +
                 "name='" + name + '\'' +
                 ", price='" + price + '\'' +
                 ", rating='" + rating + '\'' +

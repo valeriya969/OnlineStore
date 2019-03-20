@@ -2,6 +2,6 @@ package ui;
 
 public interface UI {
     void start();
-    void menu();
+    void menu(String a);
     void end();
 }

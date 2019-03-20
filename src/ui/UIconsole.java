@@ -7,14 +7,22 @@ public class UIconsole implements UI {
     }
 
     @Override
-    public void menu() {
-        String[] actions={"1-Registrate","2-catalogue of products",""};
-        System.out.println("Select action!");
-        for (String action : actions) {
-            System.out.println(action);
+    public void menu(String a) {
+        if (a.equals("1")){
+            System.out.println("Input login");
+            System.out.println("Input password");
+        } else if (a.equals("2")) {
+            System.out.println("1-Ladiescloth 2-Mencloth 3-back");
+
+        }else if (a.equals("3")){
+            System.out.println("We will be glad to see you again!");
+            return;
         }
 
         }
+
+
+
 
 
     @Override

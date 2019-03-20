@@ -6,7 +6,7 @@ public class InConsole implements In {
     Scanner scanner;
     @Override
     public String read() {
-         scanner=new Scanner(System.in);
+        scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
