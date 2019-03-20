@@ -10,11 +10,7 @@ public class ActionStore {
     private In in;
     private User users;
     private Category[] categories;
-    private Product[] products;
     private String action="";
-    private Basket basket;
-
-
 
     public ActionStore(UI ui, In in) {
         this.ui = ui;
@@ -25,7 +21,7 @@ public class ActionStore {
         ui.start();
         while (true){
             if (!action.equals("2")) {
-                String[] actions = {"1-Registration", "2-catalogue of products","3-return"};
+                String[] actions = {"1-Registration", "2-catalogue of products","3-Exit"};
                 System.out.println("Select action!");
                 for (String s : actions) {
                     System.out.println(s);
@@ -53,7 +49,6 @@ public class ActionStore {
                         String c=in.read();
                         putInBasket(c);
                     }
-
                 } else if (a.equals("2")) {
                     dressMan();
                     System.out.println("Input name of category");
@@ -66,17 +61,23 @@ public class ActionStore {
                         System.out.println("Input name of product to put in the basket");
                         String c=in.read();
                         putInBasket(c);
-                        System.out.println(users.getBasket());
                     }
                 }else if(a.equals("3")) {
-                    return;
+                    action="1";
+                } else if (a.equals("4")) {
+                    System.out.println("There are all products in basket");
+                    showBasket();
+                } else if (a.equals("5")) {
+                    buy();
+                    cleanBasket();
                 }
             } else if(action.equals("3")){
-                ui.menu(action);
+               ui.menu(action);
+               break;
             }
+
         }
     }
-
 
     void createUser() {
         String login = in.read();
@@ -139,15 +140,38 @@ public class ActionStore {
         for (Category category:categories){
             for (Product product:category.getProducts()){
                 if (product.getName().equals(a)){
-//                    basket.setProducts(product);
                     for (int i = 0; i < users.getBasket().getProducts().length; i++) {
-                        if ( users.getBasket().getProducts()[i]==null) {
+                        if (users.getBasket().getProducts()[i]==null) {
                             users.getBasket().getProducts()[i] = product;
                             break;
                         }
                     }
                 }
             }
+        }
+    }
+
+    void showBasket(){
+        for (int i = 0; i < users.getBasket().getProducts().length; i++) {
+            if (users.getBasket().getProducts()[i]!=null) {
+                System.out.println(users.getBasket().getProducts()[i]);
+            }
+        }
+    }
+
+    void buy(){
+        double sum=0;
+        for (int i = 0; i < users.getBasket().getProducts().length; i++) {
+            if (users.getBasket().getProducts()[i]!=null) {
+                sum=sum+users.getBasket().getProducts()[i].getPrice();
+            }
+        }
+        System.out.println("That is " +sum+"$ altogether! Thank you!");
+    }
+
+    void cleanBasket(){
+        for (int i = 0; i < users.getBasket().getProducts().length; i++) {
+            users.getBasket().getProducts()[i]=null;
         }
     }
 }
