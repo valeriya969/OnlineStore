@@ -5,6 +5,10 @@ import product.Product;
 import ui.UI;
 import user.User;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class ActionStore {
     private UI ui;
     private In in;
@@ -75,7 +79,6 @@ public class ActionStore {
                ui.menu(action);
                break;
             }
-
         }
     }
 
@@ -160,13 +163,26 @@ public class ActionStore {
     }
 
     void buy(){
+        Locale locale = new Locale("en", "US");
+        ResourceBundle rb = ResourceBundle.getBundle("basket", locale);
+        String value = rb.getString("key1");
+        System.out.printf("%20s %n",value);
+        String value1=rb.getString("key2");
+        System.out.printf("%-25s %10s%n",value1,users.getBasket().getDateOfShopping());
+        System.out.printf("%-25s %10s%n","Products","Price");
+        System.out.println("-----------------------------------");
         double sum=0;
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
         for (int i = 0; i < users.getBasket().getProducts().length; i++) {
             if (users.getBasket().getProducts()[i]!=null) {
+                System.out.printf("%-25s %10s%n",users.getBasket().getProducts()[i].getName(),
+                        numberFormat.format(users.getBasket().getProducts()[i].getPrice()));
                 sum=sum+users.getBasket().getProducts()[i].getPrice();
             }
         }
-        System.out.println("That is " +sum+"$ altogether! Thank you!");
+        System.out.println("-----------------------------------");
+        String value2=rb.getString("key3");
+        System.out.printf("%-25s %10s%n",value2,numberFormat.format(sum));
     }
 
     void cleanBasket(){
