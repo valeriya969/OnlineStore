@@ -4,24 +4,21 @@ import input.In;
 import product.Product;
 import ui.UI;
 import user.User;
-
 import java.text.NumberFormat;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ActionStore {
     private UI ui;
     private In in;
     private User users;
-    private Category[] categories;
+    private Map<String,Category> categories;
     private String action="";
 
     public ActionStore(UI ui, In in) {
         this.ui = ui;
         this.in = in;
     }
-
-    void running() {
+    public void running() {
         ui.start();
         while (true){
             if (!action.equals("2")) {
@@ -36,34 +33,34 @@ public class ActionStore {
                 ui.menu(action);
                 createUser();
                 System.out.println("Input 2 to see catalogue");
-                action=in.read();
+                action = in.read();
             } else if (action.equals("2")) {
                 ui.menu(action);
                 String a = in.read();
                 if (a.equals("1")) {
                     dressWoman();
-                    System.out.println("Input name of category");
-                    String b=in.read();
+                    System.out.println("Input number of category");
+                    String b = in.read();
                     seeCategory(b);
                     if (users==null) {
                         System.out.println("At first, input 1 to register, please");
-                        action=in.read();
+                        action = in.read();
                     } else {
-                        System.out.println("Input name of product to put in the basket");
-                        String c=in.read();
+                        System.out.println("Input number of product to put in the basket");
+                        String c = in.read();
                         putInBasket(c);
                     }
                 } else if (a.equals("2")) {
                     dressMan();
-                    System.out.println("Input name of category");
+                    System.out.println("Input number of category");
                     String b=in.read();
                     seeCategory(b);
                     if (users==null) {
                         System.out.println("At first, input 1 to register, please");
                         action=in.read();
                     } else {
-                        System.out.println("Input name of product to put in the basket");
-                        String c=in.read();
+                        System.out.println("Input number of product to put in the basket");
+                        String c = in.read();
                         putInBasket(c);
                     }
                 }else if(a.equals("3")) {
@@ -82,113 +79,100 @@ public class ActionStore {
         }
     }
 
-    void createUser() {
+    public void createUser() {
         String login = in.read();
         String password = in.read();
         users = new User(login, password, new Basket());
         System.out.println("Hello, " + users.getLogin());
     }
 
-    void newProduct() {
-        Product product1 = new Product("skirt", 20, "5");
-        Product product2 = new Product("skirt1", 50, "5");
-        Product product3 = new Product("blouse1", 10, "5");
-        Product product4 = new Product("blouse2", 30, "5");
-        Product product5 = new Product("coat", 100, "5");
-        Product product6 = new Product("jacket", 90, "5");
-        Product product7 = new Product("trousers1", 60, "5");
-        Product product8 = new Product("trousers2", 50, "5");
-        Product product9 = new Product("tie", 50, "5");
-        Product product10 = new Product("tie1", 50, "5");
-        Product[] skirt = {product1, product2};
-        Product[] blouse = {product3, product4};
-        Product[] outerwear = {product5, product6};
-        Product[] trousers = {product7, product8};
-        Product[] tie = {product9, product10};
-        Category category1 = new Category("Skirt", "w", skirt);
-        Category category2 = new Category("Blouse", "w", blouse);
-        Category category3 = new Category("Outerwear", "m", outerwear);
-        Category category4 = new Category("Trousers", "m", trousers);
-        Category category5 = new Category("Tie", "m", tie);
-        categories = new Category[]{category1, category2, category3, category4, category5};
+    public void newProduct() {
+        Map<String,Product> skirt = new HashMap<>();
+        Map<String,Product> blouse = new HashMap<>();
+        Map<String,Product> outerwear = new HashMap<>();
+        Map<String,Product> trousers = new HashMap<>();
+        Map<String,Product> tie = new HashMap<>();
+        skirt.put("1",new Product("skirt", 20, "5"));
+        skirt.put("2",new Product("skirt1", 50, "4"));
+        blouse.put("3",new Product("blouse1", 10, "3"));
+        blouse.put("4",new Product("blouse2", 30, "5"));
+        outerwear.put("5",new Product("coat", 100, "4"));
+        outerwear.put("6",new Product("jacket", 90, "3"));
+        trousers.put("7",new Product("trousers1", 60, "5"));
+        trousers.put("8",new Product("trousers2", 50, "4"));
+        tie.put("9",new Product("tie", 50, "3"));
+        tie.put("10", new Product("tie1", 50, "4"));
+        categories = new HashMap<>();
+        categories.put("1", new Category("Skirt", "w", skirt));
+        categories.put("2",new Category("Blouse", "w", blouse));
+        categories.put("3",new Category("Outerwear", "m", outerwear));
+        categories.put("4",new Category("Trousers", "m", trousers));
+        categories.put("5",new Category("Tie", "m", tie));
     }
-
-    void dressMan() {
-        for (Category category : categories) {
-            if (category.getSex().equals("m")) {
-                System.out.println(category.getName());
+    public void dressMan() {
+        for (Map.Entry<String, Category> categoryEntry : categories.entrySet()) {
+            if (categoryEntry.getValue().getSex().equals("m")) {
+                System.out.println(categoryEntry.getKey()+" "+ categoryEntry.getValue().getName());
             }
         }
     }
 
-    void dressWoman() {
-        for (Category category : categories) {
-            if (category.getSex().equals("w")) {
-                System.out.println(category.getName());
+    public void dressWoman() {
+        for (Map.Entry<String, Category> categoryEntry : categories.entrySet()) {
+            if (categoryEntry.getValue().getSex().equals("w")) {
+                System.out.println(categoryEntry.getKey()+" "+ categoryEntry.getValue().getName());
             }
         }
     }
 
-    void seeCategory(String a){
-        for (Category category : categories) {
-            if (category.getName().equals(a)){
-                for(Product product:category.getProducts()){
-                    System.out.println(product);
+    public void seeCategory(String a){
+        for (Map.Entry<String, Category> categoryEntry : categories.entrySet()) {
+            if(categoryEntry.getKey().equals(a)){
+                System.out.println(categoryEntry.getValue().getProducts());
+            }
+        }
+    }
+
+    public void putInBasket(String a) {
+        for (Map.Entry<String, Category> categoryEntry : categories.entrySet()) {
+            Map<String, Product> productMap = categoryEntry.getValue().getProducts();
+            for (Map.Entry<String, Product> ProductEntry :productMap.entrySet()) {
+                if (ProductEntry.getKey().equals(a)) {
+                    users.getBasketUser().getBasket().add(ProductEntry.getValue());
                 }
             }
         }
     }
 
-    void putInBasket(String a) {
-        for (Category category:categories){
-            for (Product product:category.getProducts()){
-                if (product.getName().equals(a)){
-                    for (int i = 0; i < users.getBasket().getProducts().length; i++) {
-                        if (users.getBasket().getProducts()[i]==null) {
-                            users.getBasket().getProducts()[i] = product;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+    public void showBasket(){
+        System.out.println(users.getBasketUser().getBasket());
     }
 
-    void showBasket(){
-        for (int i = 0; i < users.getBasket().getProducts().length; i++) {
-            if (users.getBasket().getProducts()[i]!=null) {
-                System.out.println(users.getBasket().getProducts()[i]);
-            }
-        }
-    }
-
-    void buy(){
+    public void buy(){
         Locale locale = new Locale("en", "US");
         ResourceBundle rb = ResourceBundle.getBundle("basket", locale);
         String value = rb.getString("key1");
         System.out.printf("%20s %n",value);
         String value1=rb.getString("key2");
-        System.out.printf("%-25s %10s%n",value1,users.getBasket().getDateOfShopping());
+        System.out.printf("%-25s %10s%n",value1,users.getBasketUser().getDateOfShopping());
         System.out.printf("%-25s %10s%n","Products","Price");
-        System.out.println("-----------------------------------");
+        System.out.println("------------------------------------");
         double sum=0;
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
-        for (int i = 0; i < users.getBasket().getProducts().length; i++) {
-            if (users.getBasket().getProducts()[i]!=null) {
-                System.out.printf("%-25s %10s%n",users.getBasket().getProducts()[i].getName(),
-                        numberFormat.format(users.getBasket().getProducts()[i].getPrice()));
-                sum=sum+users.getBasket().getProducts()[i].getPrice();
+        for (int i = 0; i < users.getBasketUser().getBasket().size(); i++) {
+            if (users.getBasketUser().getBasket().get(i)!=null) {
+                System.out.printf("%-25s %10s%n",users.getBasketUser().getBasket().get(i).getName(),
+                        numberFormat.format(users.getBasketUser().getBasket().get(i).getPrice()));
+                sum=sum+users.getBasketUser().getBasket().get(i).getPrice();
             }
         }
-        System.out.println("-----------------------------------");
+        System.out.println("------------------------------------");
         String value2=rb.getString("key3");
         System.out.printf("%-25s %10s%n",value2,numberFormat.format(sum));
     }
 
-    void cleanBasket(){
-        for (int i = 0; i < users.getBasket().getProducts().length; i++) {
-            users.getBasket().getProducts()[i]=null;
-        }
+    public void cleanBasket(){
+        users.getBasketUser().getBasket().clear();
     }
 }
 
