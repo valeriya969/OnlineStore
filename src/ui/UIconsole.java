@@ -20,10 +20,5 @@ public class UIconsole implements UI {
 
     @Override
     public void end() {
-
     }
-
-
-
-
 }
