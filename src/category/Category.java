@@ -1,16 +1,15 @@
 package category;
 
 import product.Product;
-
-import java.util.Arrays;
+import java.util.Map;
 import java.util.Objects;
 
 public class Category  {
     private String name;
     private String sex;
-    private Product[] products;
+    private Map<String,Product> products;
 
-    public Category(String name, String sex, Product[] products) {
+    public Category(String name, String sex, Map<String, Product> products) {
         this.name = name;
         this.sex = sex;
         this.products = products;
@@ -32,11 +31,11 @@ public class Category  {
         this.sex = sex;
     }
 
-    public Product[] getProducts() {
+    public Map<String, Product> getProducts() {
         return products;
     }
 
-    public void setProducts(Product[] products) {
+    public void setProducts(Map<String, Product> products) {
         this.products = products;
     }
 
@@ -47,14 +46,12 @@ public class Category  {
         Category category = (Category) o;
         return Objects.equals(name, category.name) &&
                 Objects.equals(sex, category.sex) &&
-                Arrays.equals(products, category.products);
+                Objects.equals(products, category.products);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(name, sex);
-        result = 31 * result + Arrays.hashCode(products);
-        return result;
+        return Objects.hash(name, sex, products);
     }
 
     @Override
@@ -62,7 +59,7 @@ public class Category  {
         return "Category{" +
                 "name='" + name + '\'' +
                 ", sex='" + sex + '\'' +
-                ", products=" + Arrays.toString(products) +
+                ", products=" + products +
                 '}';
     }
 }
