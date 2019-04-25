@@ -7,12 +7,12 @@ import java.util.Objects;
 public class User {
     private String login;
     private String password;
-    private Basket basket;
+    private Basket basketUser;
 
     public User(String login, String password, Basket basket) {
         this.login = login;
         this.password = password;
-        this.basket = basket;
+        this.basketUser = basket;
     }
 
     public User(String login, String password) {
@@ -39,12 +39,12 @@ public class User {
         this.password = password;
     }
 
-    public Basket getBasket() {
-        return basket;
+    public Basket getBasketUser() {
+        return basketUser;
     }
 
-    public void setBasket(Basket basket) {
-        this.basket = basket;
+    public void setBasketUser(Basket basketUser) {
+        this.basketUser = basketUser;
     }
 
     @Override
@@ -54,14 +54,14 @@ public class User {
         User user = (User) o;
         return Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(basket, user.basket);
+                Objects.equals(basketUser, user.basketUser);
     }
 
     @Override
     public int hashCode() {
         int result = login != null ? login.hashCode() : 0;
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (basket != null ? basket.hashCode() : 0);
+        result = 31 * result + (basketUser != null ? basketUser.hashCode() : 0);
         return result;
     }
 
