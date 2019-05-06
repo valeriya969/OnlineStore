@@ -1,3 +1,5 @@
+package service;
+
 import basket.Basket;
 import category.Category;
 import input.In;
@@ -13,6 +15,7 @@ public class ActionStore {
     private User users;
     private Map<String,Category> categories;
     private String action="";
+    private Map<String,User> userMap;
 
     public ActionStore(UI ui, In in) {
         this.ui = ui;
@@ -32,8 +35,14 @@ public class ActionStore {
             if (action.equals("1")) {
                 ui.menu(action);
                 createUser();
-                System.out.println("Input 2 to see catalogue");
-                action = in.read();
+                if (users == null) {
+                    System.out.println("Input 1 to register, please");
+                    action = in.read();
+                }
+                else {
+                    System.out.println("Input 2 to see catalogue");
+                    action = in.read();
+                }
             } else if (action.equals("2")) {
                 ui.menu(action);
                 String a = in.read();
@@ -82,16 +91,31 @@ public class ActionStore {
     public void createUser() {
         String login = in.read();
         String password = in.read();
-        users = new User(login, password, new Basket());
-        System.out.println("Hello, " + users.getLogin());
+        if (userMap.get(login) == null) {
+            if (UserCheck.verify(login, password)) {
+                userMap.put(login, new User(login, password, new Basket()));
+                users = userMap.get(login);
+            } else System.out.println("You aren't registered");
+        } else if (userMap.get(login).getLogin().equals(login) && userMap.get(login).getPassword().equals(password)) {
+            System.out.println("Authentication is successful");
+            users = userMap.get(login);
+        } else if (userMap.get(login).getLogin().equals(login))
+            System.out.println("Your password is incorrect");
+        }
+
+    public void createUserMap(){
+        userMap = new HashMap<>();
+        userMap.put("Pol3566", new User("Pol3566", "34567",new Basket()));
+        userMap.put("Valerie31", new User("Valerie31", "345567",new Basket()));
+        userMap.put("An208", new User("An208", "3344",new Basket()));
     }
 
     public void newProduct() {
-        Map<String,Product> skirt = new HashMap<>();
-        Map<String,Product> blouse = new HashMap<>();
-        Map<String,Product> outerwear = new HashMap<>();
-        Map<String,Product> trousers = new HashMap<>();
-        Map<String,Product> tie = new HashMap<>();
+        Map<String,Product> skirt = new TreeMap<>();
+        Map<String,Product> blouse = new TreeMap<>();
+        Map<String,Product> outerwear = new TreeMap<>();
+        Map<String,Product> trousers = new TreeMap<>();
+        Map<String,Product> tie = new TreeMap<>();
         skirt.put("1",new Product("skirt", 20, "5"));
         skirt.put("2",new Product("skirt1", 50, "4"));
         blouse.put("3",new Product("blouse1", 10, "3"));
@@ -101,8 +125,8 @@ public class ActionStore {
         trousers.put("7",new Product("trousers1", 60, "5"));
         trousers.put("8",new Product("trousers2", 50, "4"));
         tie.put("9",new Product("tie", 50, "3"));
-        tie.put("10", new Product("tie1", 50, "4"));
-        categories = new HashMap<>();
+        tie.put("10", new Product("tie1", 60, "4"));
+        categories = new TreeMap<>();
         categories.put("1", new Category("Skirt", "w", skirt));
         categories.put("2",new Category("Blouse", "w", blouse));
         categories.put("3",new Category("Outerwear", "m", outerwear));
