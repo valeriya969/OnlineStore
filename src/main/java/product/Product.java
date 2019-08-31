@@ -35,6 +35,7 @@ public class Product  {
         this.rating = rating;
     }
 
+
     @Override
     public int hashCode() {
         int result;
