@@ -1,11 +1,11 @@
 package service;
 
-import basket.Basket;
-import category.Category;
+import entity.Basket;
+import entity.Category;
 import input.In;
-import product.Product;
+import entity.Product;
 import ui.UI;
-import user.User;
+import entity.User;
 import java.text.NumberFormat;
 import java.util.*;
 
