@@ -1,6 +1,4 @@
-package user;
-
-import basket.Basket;
+package entity;
 
 import java.util.Objects;
 
@@ -67,7 +65,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "user.User{" +
+        return "entity.User{" +
                 "login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 '}';
