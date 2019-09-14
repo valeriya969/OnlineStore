@@ -4,14 +4,34 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Category  {
+    private int id;
     private String name;
     private String sex;
     private Map<String,Product> products;
+
+    public Category(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Category(int id, String name, String sex) {
+        this.id = id;
+        this.name = name;
+        this.sex = sex;
+    }
 
     public Category(String name, String sex, Map<String, Product> products) {
         this.name = name;
         this.sex = sex;
         this.products = products;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

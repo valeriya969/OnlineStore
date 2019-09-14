@@ -91,6 +91,7 @@ public class ActionStore {
     public void createUser() {
         String login = in.read();
         String password = in.read();
+
         if (userMap.get(login) == null) {
             if (UserCheck.verify(login, password)) {
                 userMap.put(login, new User(login, password, new Basket()));
